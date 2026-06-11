@@ -1,5 +1,3 @@
-# 1. Instalamos la librería necesaria para buscar coincidencias (solo para Colab)
-!pip install thefuzz[speedup]
 
 import pandas as pd
 from thefuzz import process
