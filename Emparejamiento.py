@@ -50,3 +50,16 @@ nombre_archivo_salida = 'Cruce_Stock_Final.csv'
 df_final.to_csv(nombre_archivo_salida, index=False, encoding='utf-8-sig')
 
 print(f"¡Listo! El archivo '{nombre_archivo_salida}' se generó correctamente en tu carpeta.")
+
+import streamlit as st
+
+# (Todo el código de arriba va acá...)
+
+# Al final de todo, creamos el botón de descarga en la web:
+with open(nombre_archivo_salida, "rb") as file:
+    btn = st.download_button(
+            label="Descargar Excel Cruzado",
+            data=file,
+            file_name="Cruce_Stock_Final.csv",
+            mime="text/csv"
+          )
