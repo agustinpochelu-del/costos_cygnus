@@ -50,14 +50,18 @@ if archivo_costos is not None and archivo_detalle is not None:
         df_detalle['Texto_Busqueda'] = df_detalle['nombre en la web'].astype(str) + " " + df_detalle['Medida_Norm'].astype(str) + " " + df_detalle['Detalle'].astype(str)
 
         # 5. Función de coincidencia difusa (Fuzzy Matching)
-        @st.cache_data 
-        def buscar_mejor_coincidencia(texto, lista_opciones):
-            match, score, indice = process.extractOne(texto, lista_opciones)
+    @st.cache_data 
+    def buscar_mejor_coincidencia(texto, lista_opciones):
+        # thefuzz devuelve una tupla con el resultado. La guardamos entera.
+        resultado = process.extractOne(texto, lista_opciones)
+        
+        # Si encontró algo, extraemos solo los dos primeros valores (match y score)
+        if resultado:
+            match = resultado[0]
+            score = resultado[1]
             if score >= 75:  # Umbral de similitud al 75%
                 return match
-            return None
-
-        opciones_tiendanube = df_costos['Texto_Busqueda'].dropna().tolist()
+        return None
 
         # 6. Ejecutar el cruce masivo
         df_detalle['Match_Tiendanube'] = df_detalle['Texto_Busqueda'].apply(
